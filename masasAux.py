@@ -96,12 +96,21 @@ while 1:
 			l2[i+1] = h * g1(v[i+1] + k1[i+1] / 2)
 			'''
 			 sigue->
+			k3=h*f1(x1+l2/2,x1+l2/2,x2+n2/2,ka)
+			m3=h*f2(x2+n2/2,x1+l2/2,x2+n2/2,-ka)
+			l3=h*g1(v1+k2/2)
+			n3=h*g2(v2+m2/2)
 			'''
 			k3[i] = h * f1(x[i] + k2[i+1] / 2, x[i] + k2[i+1] / 2, x[i+1] + m2[i+1] / 2, ka)
 			m3[i] = h * f1(x[i+1] + m2[i+1] / 2, x[i] + k2[i+1] / 2, x[i+1] + m2[i+1] / 2, -ka)
 			k3[i+1] = h * g1(v[i] + k2[i] / 2)
 			m3[i+1] = h * g1(v[i+1] + m2[i] / 2)
-
+			'''
+			k4=h*f1(x1+l3,x1+l3,x2+n3,ka)
+			m4=h*f2(x2+n3,x1+l3,x2+n3,-ka)
+			l4=h*g1(v1+k3)
+			n4=h*g2(v2+m3)
+			'''
 			k4[i] = h * f1(x[i] + k3[i+1], x[i] + k3[i+1], x[i+1] + m3[i+1], ka)
 			m4[i] = h * f1(x[i+1] + m3[i+1], x[i] + k3[i+1], x[i+1] + m3[i+1], -ka)
 			k4[i+1] = h * g1(v[i] + k3[i])
