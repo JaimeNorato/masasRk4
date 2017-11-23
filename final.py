@@ -22,12 +22,21 @@ display(title='Posiciones vs tiempo',y=220,width=1200)
 #lineas antre la line a 21 y 50
 #funcion grafica por definir
 def graficar(ss):
+    for i in range(0,N):
+        print N,i,ss[i]
+        if i<N:
+            possx = gcurve(color=color.red)
+            possx.plot(pos=(t, ss[i]))
+
     ss[0]=0
 #apartir de linea 50
 M=2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
 a=concatenate((0*eye(N),M))
 b=concatenate((eye(N),0*eye(N)))
 M=concatenate((a,b),axis=1)
+print 'ss'
+print ss
+print 'M'
 print M
 
 def f(ss):
@@ -42,3 +51,5 @@ def rk4(ss):
 while 1:
     rate(80)
     graficar(ss)
+    ss = rk4(ss)
+    t += h
