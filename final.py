@@ -8,7 +8,6 @@ h=0.05
 t=0.0
 k=1.0
 m=1.0
-p=-3
 
 ss=zeros(2*N)#estado inicil delsistema
 ss[0]=1.0
@@ -54,7 +53,7 @@ def animar(ss):
             resortes[i].length=3+float(ss[i])
 
 #apartir de linea 50
-M=2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
+M=-2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
 a=concatenate((0*eye(N),M))
 b=concatenate((eye(N),0*eye(N)))
 M=concatenate((a,b),axis=1)
