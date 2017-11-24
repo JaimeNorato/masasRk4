@@ -29,18 +29,16 @@ piso      = box(pos=(0,-1,0),length=18,height=0.1,width=2,material=materials.woo
 masas=[]
 resortes=[]
 graficas=[]
-pAux=p
 for i in range(0,N):
     col = color.red
     if i%2==0:
         col=color.green
     if i%3==0:
         col=color.cyan
-    masas.append(sphere(pos=(pAux,0,0),color=col))
+    masas.append(sphere(pos=(ss[i],0,0),color=col))
     graficas.append(gcurve(color=col))
     if i<N-1:
-        resortes.append(helix(pos=(pAux,0,0),length=3,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
-    pAux=3*i
+        resortes.append(helix(pos=(ss[i],0,0),length=3,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
 
 #funcion grafica por definir
 def graficar(ss):
@@ -49,13 +47,11 @@ def graficar(ss):
         graficas[i].plot(pos=(ss[i],ss[N+i]))
 
 def animar(ss):
-    pAux = p
     for i in range(0, N):
-        masas[i].x = ss[i] + pAux
+        masas[i].x = ss[i]
         if i < N - 1:
-            resortes[i].x=ss[i] + pAux
+            resortes[i].x=ss[i]
             resortes[i].length=3+float(ss[i])
-        pAux = 3*i*-1
 
 #apartir de linea 50
 M=2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
