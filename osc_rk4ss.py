@@ -8,7 +8,7 @@ m  =  1.0
 F0 = 1.0 
 
 ss=array([1.0,1.0,0.0,0.0])#ss[0],ss[1],v1,v2
-M=array([[0.0,1,0],[0,0,0,1],[-k/m,0.0],[0,0,k/m]])
+M=array([[0,0,1,0],[0,0,0,1],[2,1,0,0],[1,2,0,0],])
 
 display(width=1200,height=300,title="Sistema masa-resorte acoplado")
 piso      = box(pos=(0,-1,0),length=18,height=0.1,width=2,material=materials.wood)
@@ -37,17 +37,17 @@ def rk4(t,ss):
 
 while 1:
 	rate(100)
-
-	masa1.x=float(ss[0])-3
-	masa2.x=float(ss[1])+3
-	resorte2.x=float(ss[0])-2
-	resorte3.x=float(ss[1])+4
+	print t,ss[0],ss[0]-2*cos(t)
+	masa1.x=ss[0]-3
+	masa2.x=ss[1]+3
+	resorte2.x=ss[0]-2
+	resorte3.x=ss[1]+4
 	resorte1.length=5+float(ss[0])
 	resorte2.length=4+float(ss[1])-float(ss[0])
 	resorte3.length=5-float(ss[1])
 
 	possx1.plot(pos=(t,ss[0]))
 	possx2.plot(pos=(t,ss[1]))
-	# ss = rk4(t, ss)
+	ss = rk4(t, ss)
 	
 	t+=h
