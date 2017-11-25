@@ -21,11 +21,9 @@ if N==3:
 display(title='Sistema masa resorte para N masas',width=1200,height=200)
 display(title='Posiciones vs tiempo',y=220,width=1200)
 
-piso      = box(pos=(0,-1,0),length=18,height=0.1,width=2,material=materials.wood)
-# pared_izq = box(pos=(-9-.05,0,0),length=0.1,height=2,width=2,material=materials.wood)
-# pared_der = box(pos=(9+.05,0,0),length=0.1,height=2,width=2,material=materials.wood)
+piso      = box(pos=(ss[0]+p,-1,0),length=p*N,height=0.1,width=2,material=materials.wood)
 
-#lineas antre la line a 21 y 50
+
 masas=[]
 resortes=[]
 graficas=[]
