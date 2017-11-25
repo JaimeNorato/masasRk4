@@ -11,7 +11,7 @@ m=1.0
 p=6
 
 ss=zeros(2*N)#estado inicil delsistema
-ss[0]=1.0
+ss[0]=-1.0#-1 para modo normal
 if N==2:
     ss[1]=-1.0#modo normal
 if N==3:
@@ -19,7 +19,7 @@ if N==3:
     ss[2]=+1.0
 
 display(title='Sistema masa resorte para N masas',y=10,width=1200,height=200)
-display(title='Posiciones vs Valocidad',y=250,width=1200)
+display(title='Posiciones vs tiempo',y=250,width=1200)
 
 piso = box(pos=(ss[0]+p,-1,0),length=p*N,height=0.1,width=2,material=materials.wood)
 
@@ -29,14 +29,15 @@ resortes=[]
 graficas=[]
 for i in range(0,N):
     pAux = p * i
-    col = color.magenta
-    if i%5==0: col=color.red
-    if i%3==0: col=color.orange
-    if i%2==0: col=color.blue
+    col = color.red
+    if i%2==0:
+        col=color.green
+    if i%3==0:
+        col=color.cyan
     masas.append(sphere(pos=(ss[i]+pAux,0,0),color=col))
     graficas.append(gcurve(color=col))
     if i<N-1:
-        resortes.append(helix(pos=(ss[i],0,0),length=p/2,color=color.green,radius=0.3,thickness=0.3/5,coils=10.0))
+        resortes.append(helix(pos=(ss[i],0,0),length=p/2,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
 
 
 #funcion grafica por definir
@@ -47,7 +48,7 @@ def graficar(ss):
 #animacion de la s masas y los resortes
 def animar(ss):
     for i in range(0, N):
-        pAux = p*i
+        pAux = p * i
         masas[i].x = ss[i]+pAux
         if i < N - 1:
             resortes[i].x=ss[i]+pAux
