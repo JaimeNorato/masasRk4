@@ -39,7 +39,7 @@ for i in range(0,N):
     masas.append(sphere(pos=(ss[i]+pAux,0,0),color=col))
     graficas.append(gcurve(color=col))
     if i<N-1:
-        resortes.append(helix(pos=(ss[i]+pAux,0,0),length=p,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
+        resortes.append(helix(pos=(ss[i],0,0),length=p/2,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
 
 
 #funcion grafica por definir
@@ -53,7 +53,8 @@ def animar(ss):
         pAux = p * i
         masas[i].x = ss[i]+pAux
         if i < N - 1:
-            resortes[i].length=p+float(ss[i])#-float(ss[i+1])
+            resortes[i].x=ss[i]+pAux
+            resortes[i].length=p+float(ss[i+1])-float(ss[i])
 
 #apartir de linea 50
 M=-2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
