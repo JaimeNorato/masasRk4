@@ -8,6 +8,7 @@ h=0.05
 t=0.0
 k=1.0
 m=1.0
+p=6
 
 ss=zeros(2*N)#estado inicil delsistema
 ss[0]=1.0
@@ -29,15 +30,17 @@ masas=[]
 resortes=[]
 graficas=[]
 for i in range(0,N):
+    pAux = p * i
     col = color.red
     if i%2==0:
         col=color.green
     if i%3==0:
         col=color.cyan
-    masas.append(sphere(pos=(ss[i],0,0),color=col))
+    masas.append(sphere(pos=(ss[i]+pAux,0,0),color=col))
     graficas.append(gcurve(color=col))
     if i<N-1:
-        resortes.append(helix(pos=(ss[i],0,0),length=3,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
+        resortes.append(helix(pos=(ss[i]+pAux,0,0),length=p,color=color.blue,radius=0.3,thickness=0.3/5,coils=10.0))
+
 
 #funcion grafica por definir
 def graficar(ss):
@@ -47,10 +50,10 @@ def graficar(ss):
 
 def animar(ss):
     for i in range(0, N):
-        masas[i].x = ss[i]
+        pAux = p * i
+        masas[i].x = ss[i]+pAux
         if i < N - 1:
-            resortes[i].x=ss[i]
-            resortes[i].length=3+float(ss[i])
+            resortes[i].length=p+float(ss[i])#-float(ss[i+1])
 
 #apartir de linea 50
 M=-2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
