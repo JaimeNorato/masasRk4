@@ -13,6 +13,10 @@ p=6
 movimientos=0
 #estado inicil delsistema
 ss = zeros(2 * N)
+#efinicion de arreglos
+masas=[]
+pariculas=[]
+resortes=[]
 #pociciones iniciales de las masas
 def posInicial(ss):
     ss = zeros(2 * N)
@@ -26,35 +30,24 @@ def posInicial(ss):
 
 ss=posInicial(ss)
 
-display(title='Sistema masa resorte para N masas',y=10,width=1200,height=200)
-display(title='Posiciones vs Valocidad',y=250,width=1200)
+display(title='Interaccion de particulas cuanticas',y=10,width=1200)
 
 piso = box(pos=(ss[1]+p,-1,0),length=p*N,height=0.1,width=2,material=materials.wood)
-
-
-masas=[]
-pariculas=[]
-posIni=[]
-resortes=[]
-graficas=[]
+#se crea la primera esfera
+pariculas.append(sphere(pos=(-9.0, 0, 0), color=color.red,radius=0.4))
+#se crea la figura conica de donde saldran las particulas
+cono=cone(pos=(-8.0,0,0),axis=(-4.0,0,0),color=color.orange,radius=1)
+#se inicializan las masas y los resortes
 for i in range(0,N):
     pAux = p * i
-    col = color.magenta
-    if i==1: col=color.orange
-    if i==2: col=color.blue
+    col = color.blue
+    if i==1: col=color.cyan
+    if i==2: col=color.green
     masas.append(sphere(pos=(ss[i]+pAux,0,0),color=col))
-    posIni.append(ss[i]+pAux)#almacena las posiciones iniciales de las masas
-    graficas.append(gcurve(color=col))
     if i<N-1:
-        resortes.append(helix(pos=(ss[i],0,0),length=p/2,color=color.green,radius=0.3,thickness=0.3/5,coils=10.0))
+        resortes.append(helix(pos=(ss[i],0,0),length=p/2,color=color.white,radius=0.3,thickness=0.3/5,coils=10.0))
 
-pariculas.append(sphere(pos=(-8.0, 0, 0), color=color.cyan,radius=0.3))
-#funcion grafica por definir
-def graficar(ss):
-    #print ss[0], ss[1], ss[2]
-    for i in range(0,N):
-        graficas[i].plot(pos=(ss[i],ss[N+i]))
-#animacion de la s masas y los resortes
+#animacion de las masas y los resortes
 def animar(ss):
     for i in range(0, N):
         pAux = p*i
@@ -67,10 +60,11 @@ M=-2*k/m*eye(N)+k/m*(eye(N,k=1)+eye(N,k=-1))
 a=concatenate((0*eye(N),M))
 b=concatenate((eye(N),0*eye(N)))
 M=concatenate((a,b),axis=1)
-print 'ss'
-print ss
-print 'M'
-print M
+'''
+___________________________________________________________________________
+----------------------definicion de funciones------------------------------
+
+'''
 #definicion de la funcion f
 def f(ss):
     return dot(M,ss)
@@ -87,12 +81,16 @@ def interactua(ss):
     global pariculas
     mueve=False
     golpea=False
+    posPart=-1;
     for i in range(0,len(pariculas)):
-        if(pariculas[i].x>=0):
+        if(pariculas[i].x>=masas[1].x-masas[1].radius and pariculas[i].x<=masas[1].x+masas[1].radius):
             golpea=True
+            posPart=i
+            print 'golpea'
     if(golpea):
         num=randint(0,200)
-        if(num==9):
+        print 'NomR', num
+        if 9 == num or 24 == num or 18 == num or 74 == num:
             mueve=True
             movimientos+=1
             print 'se mueve'
@@ -101,23 +99,23 @@ def interactua(ss):
 def seMueve(ss):
     global movimientos
     mueve=False
-    if(movimientos>0 and pariculas[0].x>p*N-1):
+    if(movimientos>0 and pariculas[0].x>p*N-0.9):
         movimientos-=1
     if(movimientos>0): mueve=True
     return mueve
 #crea las pariculas
 def newParticula():
     global  pariculas
-    if(pariculas[len(pariculas)-1].x>5):
-        pariculas.append(sphere(pos=(-8.0, 0, 0), color=color.cyan,radius=0.3))
+    if(pariculas[len(pariculas)-1].x>-3):
+        pariculas.append(sphere(pos=(-9.0, 0, 0), color=color.red,radius=0.4))
 #elimina las pariculas
 def deleteParticula():
     global  pariculas
-    if(pariculas[0].x>p*N):
+    if(pariculas[0].x>p*N-0.35):
         pariculas[0].color=color.black
         pariculas.pop(0)
 #anima las particulas
-def animarPArticula():
+def animarParticula():
     global pariculas
     for i in range(0, len(pariculas)):
         pariculas[i].x+=h
@@ -126,10 +124,9 @@ def animarPArticula():
 while 1:
     rate(80)
     print movimientos
-    graficar(ss)
     newParticula()
     animar(ss)
-    animarPArticula()
+    animarParticula()
     if (interactua(ss) or seMueve(ss)):
         ss = rk4(ss)
     deleteParticula()
